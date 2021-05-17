@@ -1,0 +1,38 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{The Riddler Solution}
+\date{May 14th 2021}
+\author{Eric Dallal}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+\maketitle
+This problem can be solved through dynamic programming, by working backwards from the end state. Define a player's rank as 1 if they win and the number of players in the round they are eliminated in otherwise. Let $V_{0}^{N}(q)$ be the rank that a player will finish in, if that player is given a value of $q$ at the start of her turn in a round when there are $N$ players. More generally, let $V_{i}^{N}(q)$ be the rank that the player $i$ turns after the current player will ultimately finish in when the current player is given a value of $q$ at the start of his turn in a round of $N$ players. Although the starting player in a round is forced to say 1, we can denote the (absent) starting value of the player by $q = 0$. The boundary conditions are as follows:
+\begin{equation}
+V_{i}^{N}(20) = \left\{
+\begin{array}{ll}
+N, & \textrm{if } i = 0\\
+1, & \textrm{if } i = 1 \textrm{ and } N = 2\\
+V_{i-1}^{N-1}(0), & \textrm{if } i \neq 0 \textrm{ and } N > 2
+\end{array}\right.
+\end{equation}
+The first case indicates that a player which is given a value of 20 is eliminated immediately, in which case that player's rank is $N$, the number of players in the round. The second case indicates that, in the round of $N = 2$ players, the player not eliminated wins the game. The last case indicates that, for the players not eliminated in a round of $N > 2$ players, the remaining players will place in accordance with the results of the round of $N - 1$.
+
+Optimal play requires that a player try to minimize their rank. Mathematically, a player given a value of $q$ in a round with $N$ players will pick the value $q^{\prime}$ that minimizes $V_{N-1}^{N}(q^{\prime})$, since this is the rank of the player $N-1$ turns after the next player (i.e., the player herself). Let this optimal action $q^{\prime}$ be denoted by $A^{N}(q)$ when a player is given value $q$ in a round with $N$ players. Then:
+\begin{eqnarray}
+A^{N}(q) & = & \left\{
+\begin{array}{ll}
+1,& \textrm{if } q = 0\\
+\argmin_{q^{\prime} \in \{q + j | j \in \{1, 2, 3, 4\}, q + j \leq 20\}} V_{N-1}^{N}(q^{\prime}),& \textrm{if } 0 < q < 20
+\end{array}\right.\\
+V_{i}^{N}(q) & = & V_{i-1}^{N}(A^{N}(q))
+\end{eqnarray}
+In the latter equation, the subscript is taken modulo $N$. These equations were applied in a python program, from which we obtain that:
+\begin{itemize}
+\item{The starting player loses the two player round.}
+\item{The three player game is ultimately won by player B, with player A coming in second place.}
+\item{The four player game is ultimately won by player C, which is followed by players B, D, and finally A.}
+\end{itemize}
+\end{document}
