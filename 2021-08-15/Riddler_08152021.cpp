@@ -49,6 +49,7 @@ double SolveNext(const vector<double>& sol) {
 		unsigned long long numPerm = GetNumPermutations(vec);
 		int curSum = 0;
 		double bestVal = 0;
+		// Determine optimal solution by considering each possible number of dice to re-roll
 		for (size_t i = 0; i < vec.size(); ++i) {
 			curSum += vec[i];
 			double curVal = curSum + sol[vec.size() - 1 - i];
@@ -62,8 +63,9 @@ double SolveNext(const vector<double>& sol) {
 
 int main() {
 	vector<double> sol = {0};
+	cout << "Dice\tAverageScore\n";
 	for (int i = 0; i < 28; ++i) {
 		sol.push_back(SolveNext(sol));
-		cout << "Average score for " << (i + 1) << " dice: " << sol.back() << "\n";
+		cout << (i + 1) << "\t" << sol.back() << "\n";
 	}
 }
