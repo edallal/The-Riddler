@@ -1,0 +1,44 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\title{The Riddler Solution}
+\date{June 10th 2022}
+\author{Eric Dallal}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+\maketitle
+\textbf{Problem Statement}:\\
+
+You are trying to catch a grasshopper on a balance beam that is 1 meter long. Every time you try to catch it, it jumps to a random point along the interval between 20 centimeters left of its current position and 20 centimeters right of its current position.\\
+
+If the grasshopper is within 20 centimeters of one of the edges, it will not jump off the edge. For example, if it is 10 centimeters from the left edge of the beam, then it will randomly jump to anywhere within 30 centimeters of that edge with equal probability (meaning it will be twice as likely to jump right as it is to jump left).\\
+
+After many, many failed attempts to catch the grasshopper, where is it most likely to be on the beam? Where is it least likely? And what is the ratio between these respective probabilities?\\
+
+\textbf{Solution}:\\
+
+We're looking for the steady state density function for the grasshopper's position on the beam. Let this density function be $f(x)$. Then:
+\begin{eqnarray}
+1 & =  & \int_{0}^{1}f(x)dx, \label{eq:pdf}\\
+f(x^{\prime}) & = & \int_{0}^{1}h(x, x^{\prime})f(x)dx, \label{eq:tran}
+\end{eqnarray}
+where $h(x, x^{\prime})$ is the transition function that defines the ``probability'' that the grasshopper will jump to $x^{\prime}$ when at $x$. This is given by:
+\begin{eqnarray}
+I(x) & = & [0, 1] \cap [x - 0.2, x + 0.2]\\
+h(x, x^{\prime}) & = & \left\{\begin{array}{ll}
+1/|I(x)|, & x^{\prime} \in I(x)\\
+0, & \mbox{else}
+\end{array}\right.
+\end{eqnarray}
+
+By inspection, we see that $f(x) = |I(x)|$ satisfies Eq.~(\ref{eq:tran}):
+\begin{equation}
+f(x^{\prime}) = \int_{0}^{1}h(x, x^{\prime})f(x)dx = \int_{I(x^{\prime})}^{}\frac{1}{|I(x)|}|I(x)|dx = |I(x^{\prime})|
+\end{equation}
+
+It follows that $f(x)$ is proportional to $|I(x)|$ (the actual value differs by a normalization constant), which is sufficient to answer the problem. The least likely places for the grasshopper are at the ends, where $|I(x)| = 0.2$, and the most likely places are anywhere at least 0.2 away from the ends, where $|I(x)| = 0.4$.
+
+\end{document}
