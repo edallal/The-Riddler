@@ -1,0 +1,44 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\title{The Riddler Express Solution}
+\date{June 17th 2022}
+\author{Eric Dallal}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+\maketitle
+\textbf{Problem Statement}:\\
+
+From Ben Weiss and David Butler comes a what is presumably Eleven’s favorite puzzle to think about in her sensory deprivation tank:\\
+
+Anna loves multiples of 11, but her friend Jane is not quite so keen. One day, Anna is flipping idly through the yellow pages (remember those?), which is full of 10-digit numbers. She notices that every 10-digit number seems to have an interesting property: It is either a multiple of 11, or it can be made a multiple of 11 by changing a single digit. For example, there are several ways to make the 10-digit number 5551234567 into a multiple of 11, such as changing the first digit to 4.\\
+
+This gets the two friends wondering: Does every counting number have this property? Either prove it’s true for every number, or find the smallest counting number that is not a multiple of 11 and cannot be made a multiple of 11 by changing one digit.\\
+
+\textbf{Solution}:\\
+A known ``trick'' for determining the remainder of some integer $N$ upon division by 11 is that this is equal to the sum of the digits in odd positions (1s, 100s, etc...) minus the sum of the digits in even positions (10s, 1000s, etc...).\\
+
+Suppose that the digit in an odd position is $a$. By changing this digit, the remainder of $N$ modulo 11 can be diminished by up to $a$, or increased by up to $9 - a$, or anything in between. The only way it could be impossible to change $N$ into a multiple of 11 by changing this digit is therefore if $N$ is $a + 1$ modulo 11. Since this must apply for any odd positioned digit, it follows that all digits in odd positions must be equal to $a$. By similar reasoning, all the digits in even positions must be the same, say $b$, and $N$ must be $10 - b$ modulo 11. It follows that $a + 1 = 10 - b$, so that $b = 9 - a$. To summarize, a neccesary and sufficient set of conditions for it to be impossible to make $N$ into a multiple of 11 by changing only a single digit is:\\
+
+\begin{itemize}
+\item{All digits in odd positions are the same, say $a$}
+\item{All digits in even positions are the same, equal to $9 - a$}
+\item{$N$ must be $a + 1$ modulo 11}
+\end{itemize}
+
+Suppose that $N$ has $d$ digits. If $d$ is odd, then $N$ has the form $a.b.a.\cdots.b.a$ and is equal to $a(d+1)/2 - (9-a)(d-1)/2 = ad - 9(d-1)/2$ modulo 11. If $d$ is even, then $N$ is equal to $ad/2 - (9-a)d/2 = ad - 9d/2$ modulo 11. We are looking for the cases where these expressions are equal to $a + 1$ modulo 11. The smallest $d$ for which there is a solution is $d = 3$, for which $3a - 9 \equiv a + 1$ modulo 11 has the solution $a = 5$. Indeed, it is not possible to turn 545 into a multiple of 11 by changing a single a digit.
+
+In fact, it is easy to determine the full set of numbers having the desired property. See the table below which gives, for each value of $d$, all possible solutions for $a$:\\
+
+\begin{tabular}{|c|ccccccccccc|} \hline
+$d \mbox{ mod } 22$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+$a$ & $\emptyset$ & $\emptyset$ & \{5\} & $\emptyset$ & \{2\} & $\emptyset$ & \{1\} & $\emptyset$ & \{6\} & $\emptyset$ & \{9\}\\
+\hline
+$d \mbox{ mod } 22$ & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 0\\
+$a$ & \{0, 1, \ldots, 8\} & $\emptyset$ & $\emptyset$ & \{3\} & $\emptyset$ & \{8\} & $\emptyset$ & \{7\} & $\emptyset$ & \{4\} & $\emptyset$\\
+\hline
+\end{tabular}
+\end{document}
