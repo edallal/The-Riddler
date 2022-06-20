@@ -1,0 +1,33 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\title{The Riddler Classic Solution}
+\date{June 17th 2022}
+\author{Eric Dallal}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+\maketitle
+\textbf{Problem Statement}:\\
+
+You have an urn with an equal number of red balls and white balls, but you have no information about what that number might be. You draw 19 balls at random, without replacement, and you get eight red balls and 11 white balls. What is your best guess for the original number of balls (red and white) in the urn?\\
+
+\textbf{Solution}:\\
+$[$Remark: I'm going to assume that by ``best guess'', what is meant is that each possible number of balls is equally likely. Without such an assumption, this problem cannot be solved.$]$
+
+Suppose that the number of red or white balls is $n$, so that the total number of balls is $2n$. The probability of picking 8 red balls and 11 white balls is:
+
+\begin{equation}
+P(n) = {19 \choose 8} \frac{n(n-1)\cdots(n-7) n(n-1)\cdots(n-10)}{(2n)(2n-1)\cdots(2n-18)}.
+\end{equation}
+
+We want to find the value of $n$ that maximizes this expression. To do this, we examine the expression for $P(n+1)/P(n)$:
+\begin{eqnarray*}
+\frac{P(n+1)}{P(n)} & = & \frac{(n+1)(n+1)(n-18)(n-17)}{(n-7)(n-10)(2n+1)(2n+2)}\\
+ & = & \frac{4n^4 - 62n^3 + 170n^2 + 542n + 306}{4n^4 - 62n^3 + 180n^2 + 386n + 140}
+\end{eqnarray*}
+This expression is greater than 1 when the numerator is greater than the denominator, or when $10n^2 - 156n - 166 < 0$. Solving the quadratic equation gives $-1 < n < 16.6$. It follows that $P(n)$ is an increasing function up until $n = 17$, at which point it decreases monotonically. Therefore, the most likely original number of balls in the urn is 34.
+
+\end{document}
