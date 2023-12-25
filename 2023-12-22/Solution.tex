@@ -1,0 +1,19 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{The Fiddler Solution}
+\date{Dec 22nd 2023}
+\author{Eric Dallal}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+\maketitle
+\section{Problem}
+There are several rectangular prisms with integer edge lengths that have an internal diagonal of length 2024. What is the greatest volume among these prisms?
+
+\section{Solution}
+We are looking to find the integer solution for $a$, $b$, and $c$ that maximizes the product $abc$, subject to the constraint that $a^2 + b^2 + c^2 = 2024^2$. First, note that $2024^2$ is a multiple of 4, and all integer squares have residues of either 0 or 1 modulo 4. It follows that $a^2$, $b^2$, and $c^2$ all have a residue of 0 modulo 4 or, equivalently, that all three are even. Therefore, we can simplify the problem by dividing each of $a$, $b$, $c$, and 2024 by two. In fact, we can do this three times, and instead find $d$, $e$, and $f$ that maximize the product $def$, subject to the constraint that $d^2 + e^2 + f^2 = 253^2$. The solution to the original problem will have $a = 8d$, $b = 8e$, and $c = 8f$, and the maximum volume will be $abc = 8^3\cdot def = 512def$.
+
+At this point, the problem is solved computationally, giving $(d, e, f) = (138, 138, 161)$, $(a, b, c) = (1104, 1104, 1288)$, and a maximal volume of 1569835008.
+\end{document}
